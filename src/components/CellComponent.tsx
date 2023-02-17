@@ -11,7 +11,7 @@ interface CellProps {
 const CellComponent: FC<CellProps> = ({ cell, selected, chooseCell }) => {
     return (
         <div 
-            className={['cell', cell.color, selected ? 'selected' : '', cell.available && cell.figure ? 'availableCellWithFigure' : '' ].join(' ')} 
+            className={['cell', cell.color, selected ? 'selected' : ''].join(' ')} 
             onClick={() => chooseCell(cell)}
         >
             {cell.available && !cell.figure && <div className='available'></div>}

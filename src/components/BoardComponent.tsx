@@ -16,13 +16,10 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
 
     function chooseCell(cell: Cell) {
         if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
-            selectedCell.moveFigure(cell, selectedCell);
-            swapPlayer()
+            selectedCell.moveFigure(cell);
             setSelectedCell(null);
-        } else {
-            if (cell.figure?.color === currentPlayer?.color) {
-                setSelectedCell(cell)
-            }
+        } else if(cell.figure) {
+            setSelectedCell(cell)
         }
     }
 
@@ -36,8 +33,8 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
     }
 
     function updateBoard() {
-        const newBoard = board.getCopyBoard()
-        setBoard(newBoard)
+        const newBoard = board.getCopyBoard();
+        setBoard(newBoard);
     }
 
     return (

@@ -16,24 +16,15 @@ export class Checker extends Figure {
             return false;
         }
         const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
-
         if (
             (target.y === this.cell.y + direction &&
-            (target.x === this.cell.x + 1 || target.x === this.cell.x - 1) &&
-            !this.cell.isEnemy(target)) || 
+                (target.x === this.cell.x + 1 ||
+                    target.x === this.cell.x - 1)) || 
             (target.y === this.cell.y + direction * 2 &&
-                (target.x === this.cell.x + 2 || target.x === this.cell.x - 2) &&
-                this.cell.isEnemyX2(target, this.cell, direction) )
+                (target.x === this.cell.x + 2 || target.x === this.cell.x - 2) && this.cell.isEnemy(target, direction, this.cell))
         ) {
             return true;
-        } else if (
-            target.y === this.cell.y + direction * 2 &&
-            (target.x === this.cell.x + 2 || target.x === this.cell.x - 2) &&
-            this.cell.isEnemyX2(target, this.cell, direction) 
-        ) {
-            return true
         }
-
         return false;
     }
 }
