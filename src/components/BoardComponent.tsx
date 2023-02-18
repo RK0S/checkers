@@ -1,4 +1,4 @@
-import React, {FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Board } from '../models/Board';
 import CellComponent from './CellComponent';
 import { Cell } from '../models/Cell';
@@ -11,25 +11,35 @@ interface BoardProps {
     swapPlayer: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}: BoardProps) => {
-    const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+const BoardComponent: FC<BoardProps> = ({
+    board,
+    setBoard,
+    currentPlayer,
+    swapPlayer,
+}: BoardProps) => {
+    const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
     function chooseCell(cell: Cell) {
-        if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
-            selectedCell.moveFigure(cell);
+        if (
+            selectedCell &&
+            selectedCell !== cell &&
+            selectedCell.figure?.canMove(cell)
+        ) {
+            selectedCell.moveFigure(cell, selectedCell);
+            swapPlayer(); //Смена игрока, здесь надо условие на проверку прыжков
             setSelectedCell(null);
-        } else if(cell.figure) {
-            setSelectedCell(cell)
+        } else if (cell.figure?.color === currentPlayer?.color) {
+            setSelectedCell(cell);
         }
     }
 
     useEffect(() => {
-        hightlightCells()
-    }, [selectedCell])
+        hightlightCells();
+    }, [selectedCell]);
 
     function hightlightCells() {
-        board.hightlightCells(selectedCell)
-        updateBoard()
+        board.hightlightCells(selectedCell);
+        updateBoard();
     }
 
     function updateBoard() {
@@ -38,19 +48,25 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
     }
 
     return (
-        <div className='board'>
-            {board.cells.map((row, index) => 
-                <React.Fragment key={index}>
-                    {row.map(cell => 
-                        <CellComponent
-                            chooseCell={chooseCell}
-                            key={cell.id} 
-                            cell={cell}
-                            selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
-                        />    
-                    )}
-                </React.Fragment>
-            )}
+        <div>
+            <h3>Ход игрока: {currentPlayer?.color}</h3>
+            <div className="board">
+                {board.cells.map((row, index) => (
+                    <React.Fragment key={index}>
+                        {row.map((cell) => (
+                            <CellComponent
+                                chooseCell={chooseCell}
+                                key={cell.id}
+                                cell={cell}
+                                selected={
+                                    cell.x === selectedCell?.x &&
+                                    cell.y === selectedCell?.y
+                                }
+                            />
+                        ))}
+                    </React.Fragment>
+                ))}
+            </div>
         </div>
     );
 };

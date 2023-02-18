@@ -57,3 +57,10 @@
     background: rgb(189, 179, 38);
     cursor: pointer;
 }
+
+.lost {
+    height: calc(50vh - 60px);
+    padding: 30px;
+    margin-left: 50px;
+    background: lightgray;
+}
