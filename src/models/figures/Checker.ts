@@ -19,9 +19,15 @@ export class Checker extends Figure {
         if (
             (target.y === this.cell.y + direction &&
                 (target.x === this.cell.x + 1 ||
-                    target.x === this.cell.x - 1)) || 
+                    target.x === this.cell.x - 1)) ||
             (target.y === this.cell.y + direction * 2 &&
-                (target.x === this.cell.x + 2 || target.x === this.cell.x - 2) && this.cell.isEnemy(target, direction, this.cell))
+                (target.x === this.cell.x + 2 ||
+                    target.x === this.cell.x - 2) &&
+                this.cell.isEnemy(target, direction, this.cell)) ||
+            (target.y === this.cell.y + direction * -2 &&
+                (target.x === this.cell.x + 2 ||
+                    target.x === this.cell.x - 2) &&
+                this.cell.isEnemyX2(target, direction, this.cell))
         ) {
             return true;
         }
